@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Cuenta } from 'src/app/models/cuenta.model';
 import { CuentaService } from 'src/app/services/cuenta.service';
 
 @Component({
@@ -9,7 +10,11 @@ import { CuentaService } from 'src/app/services/cuenta.service';
 })
 export class HeaderComponent {
 
-  constructor(private cuentaService: CuentaService) { }
+  public cuenta: Cuenta;
+  
+  constructor(private cuentaService: CuentaService) {
+    this.cuenta = cuentaService.cuenta
+   }
 
   logout(){
     this.cuentaService.logout();

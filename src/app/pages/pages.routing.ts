@@ -5,6 +5,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProgressComponent } from './progress/progress.component';
 import { Grafica1Component } from './grafica1/grafica1.component';
 import { AuthGuard } from '../guards/auth.guard';
+import { PerfilComponent } from './perfil/perfil.component';
 
 
 const routes: Routes = [
@@ -15,8 +16,9 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         children: [
           {path: '',  component: DashboardComponent},
-          {path: 'progress',  component: ProgressComponent},
-          {path: 'grafica1',  component: Grafica1Component},
+          {path: 'progress',  component: ProgressComponent, data: {titulo: 'Progress'}},
+          {path: 'grafica1',  component: Grafica1Component, data: {titulo: 'Grafica'}},
+          {path: 'perfil',  component: PerfilComponent, data: {titulo: 'Perfil'}},
         ]
       },
 

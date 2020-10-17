@@ -1,4 +1,6 @@
+import { environment } from 'src/environments/environment';
 
+const base_url = environment.base_url;
 
 export class Cuenta {
 
@@ -7,9 +9,18 @@ export class Cuenta {
         public nombre: string,
         public email: string,
         public password: string,
-        public rol: string,
-        public uid: string,
+        public rol?: string,
+        public uid?: string,
+        public imagen?: string,
         public google?: boolean,
 
     ) { }
+
+    get imagenUrl(){
+        if (this.imagen) {
+            
+            return `${base_url}/uploads/cuentas/${this.imagen}`;
+        }
+        return `${base_url}/uploads/cuentas/no-image`;
+    }
 }
