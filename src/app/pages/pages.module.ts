@@ -10,6 +10,11 @@ import { Grafica1Component } from './grafica1/grafica1.component';
 import { PagesComponent } from './pages.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CuentasComponent } from './cuentas/cuentas.component';
+import { PersonasComponent } from './personas/personas.component';
+import { DenunciasComponent } from './denuncias/denuncias.component';
+import { DenunciaComponent } from './denuncias/denuncia.component';
+import { CrearCuentaComponent } from './cuentas/crear-cuenta.component';
 
 
 
@@ -19,13 +24,22 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ProgressComponent,
     Grafica1Component,
     PagesComponent,
-    PerfilComponent
+    PerfilComponent,
+    CuentasComponent,
+    PersonasComponent,
+    DenunciasComponent,
+    DenunciaComponent,
+    CrearCuentaComponent
   ],
   exports:[
     DashboardComponent,
     ProgressComponent,
     Grafica1Component,
-    PagesComponent
+    PagesComponent,
+    PerfilComponent,
+    CuentasComponent,
+    PersonasComponent,
+    DenunciasComponent
   ],
   imports: [
     CommonModule,

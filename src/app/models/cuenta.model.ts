@@ -17,6 +17,10 @@ export class Cuenta {
     ) { }
 
     get imagenUrl(){
+
+        if (!this.imagen) {
+            return `${base_url}/uploads/cuentas/no-image`;
+        }
         if (this.imagen) {
             
             return `${base_url}/uploads/cuentas/${this.imagen}`;

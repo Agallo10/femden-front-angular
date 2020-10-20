@@ -1,0 +1,78 @@
+<div class="row animated fadeIn fast">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <input type="text" class="form-control" placeholder="Buscar persona" (keyup)="buscar(textTermino.value)"
+                    #textTermino />
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animated fadeIn fast" *ngIf="cargando">
+    <div class="col-12">
+
+        <div class="alert alert-info text-center">
+            <h4 class="alert heading">Cargando</h4>
+            <i class="fa fa-spin fa-refresh fa-2x"></i>
+            <p class="mb-0">Por favor espere</p>
+        </div>
+    </div>
+</div>
+
+<div class="row animated fadeIn fast" *ngIf="!cargando">
+
+    <div class="col-12">
+
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Total dePersonas ({{totalPersonas}})</h4>
+                <h6 class="card-subtitle">Tabla de personas</h6>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Documento</th>
+                                <th>Email</th>
+                                <th>telefono</th>
+                                <th>Rol</th>
+                                <th>Direccion</th>
+                                <th class="text-nowrap">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let persona of personas">
+                                
+                                <td>{{persona.nombre}}</td>
+                                <td>{{persona.documento}}</td>
+                                <td>{{persona.email}}</td>
+                                <td>{{persona.telefono}}</td>
+                                <td>{{persona.rol}}</td>
+                                <td>{{persona.direccion}}</td>
+                               
+
+                                <td class="text-nowrap text-center">
+
+                                    <a data-toggle="tooltip" 
+                                       data-original-title="Borrar"
+                                       class="cursor"
+                                       (click)="eliminarPersona(persona)">
+                                        <i class="fa fa-close text-danger"></i>
+                                    </a>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                <div *ngIf= "textTermino.value.length === 0">
+                    <button (click)="cambiarPagina(-5)" class="btn btn-secondary">Anteriores</button>
+                    &nbsp;
+                    <button (click)="cambiarPagina(5)" class="btn btn-secondary">Siguientes</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>

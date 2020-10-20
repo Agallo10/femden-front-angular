@@ -7,8 +7,10 @@ import { catchError, map, tap } from "rxjs/operators";
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 import { Cuenta } from '../models/cuenta.model';
+import { Cuentas } from '../interfaces/cuentas';
+import { CuentaForm } from '../interfaces/cuenta-form';
 
-const base_url= environment.base_url;
+const base_url = environment.base_url;
 
 @Injectable({
     providedIn: 'root'
@@ -19,8 +21,8 @@ export class CuentaService {
     public cuenta: Cuenta;
 
 
-    constructor( private http: HttpClient,
-                    private ruter: Router){}
+    constructor(private http: HttpClient,
+        private ruter: Router) { }
 
 
     get token(): string {
@@ -31,37 +33,46 @@ export class CuentaService {
         return this.cuenta.uid || "";
     }
 
-    logout(){
+    get headers() {
+        return {
+            headers: {
+                'x-token': this.token
+            }
+        }
+    }
+
+    crearCuenta(formData: CuentaForm){
+        return this.http.post(`${base_url}/cuentas`, formData,this.headers);
+    }
+
+    logout() {
         localStorage.removeItem('token');
         this.ruter.navigateByUrl('/login');
     }
 
 
-    validarToken(){
+    validarToken() {
 
-        return this.http.get(`${ base_url}/login/renew`,{
-            headers: {
-                'x-token': this.token
-            }
-        }).pipe(
-            map((resp: any)=>{
-                const {
-                     nombre,
-                     email,
-                     rol,                    
-                     uid,                     
-                     imagen = '',
-                     google, } = resp.cuenta;
+        return this.http.get(`${base_url}/login/renew`, this.headers)
+            .pipe(
+                map((resp: any) => {
+                    const {
+                        nombre,
+                        email,
+                        rol,
+                        uid,
+                        imagen = '',
+                        google, } = resp.cuenta;
 
-                this.cuenta = new Cuenta(nombre, email, '', rol, uid, imagen, google);
-                localStorage.setItem('token', resp.token);
-                return true;
-            }),
-            catchError(error => of(false))
-        );
+                    this.cuenta = new Cuenta(nombre, email, '', rol, uid, imagen, google);
+                    localStorage.setItem('token', resp.token);
+                    return true;
+                }),
+                catchError(error => of(false))
+            );
     }
 
-    actualizarPerfil ( data: {nombre: string, rol: string, email: string} ){
+    actualizarPerfil(data: { nombre: string, rol: string, email: string }) {
 
         data = {
             ...data,
@@ -69,21 +80,41 @@ export class CuentaService {
             email: this.cuenta.email
         }
 
-        return this.http.put(`${ base_url}/cuentas/${ this.uid }`, data, {
-            headers: {
-                'x-token': this.token
-            }
-        });
+        return this.http.put(`${base_url}/cuentas/${this.uid}`, data, this.headers);
     }
 
+    login(formData: LoginForm) {
 
-    login(formData: LoginForm){
+        return this.http.post(`${base_url}/login`, formData)
+            .pipe(
+                tap((resp: any) => {
+                    localStorage.setItem('token', resp.token)
+                })
+            );
+    }
 
-        return this.http.post(`${ base_url}/login`, formData)
-                    .pipe(
-                        tap((resp: any)=>{
-                            localStorage.setItem('token', resp.token)
-                        })
+    getCuentas(desde: number = 0) {
+
+        const url = `${base_url}/cuentas?desde=${desde}`;
+        return this.http.get<Cuentas>(url, this.headers)
+            .pipe(
+                map(resp => {
+
+                    const cuentas = resp.cuentas.map(
+                        cuenta => new Cuenta(cuenta.nombre, cuenta.email, '', cuenta.rol, cuenta.uid, cuenta.imagen)
                     );
+                    return {
+                        total: resp.total,
+                        cuentas
+                    }
+                })
+            )
+    }
+
+    eliminarCuenta(cuenta: Cuenta) {
+
+        const url = `${base_url}/cuentas/${cuenta.uid}`;
+        return this.http.delete(url, this.headers);
+
     }
 }

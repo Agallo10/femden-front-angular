@@ -1,0 +1,86 @@
+<div class="col-lg-6">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Crear Cuenta de entidad</h4>
+            <!-- <h6 class="card-subtitle">Crear Cuenta de entidad</h6> -->
+
+            <form class="form p-t-20"
+                    [formGroup]="cuentaForm"
+                    (ngSubmit)=crearCuenta()>
+
+                <div class="form-group">
+                    <label for="exampleInputuname">Nombre</label>
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="ti-user"></i></div>
+                        <input type="text" 
+                                class="form-control" 
+                                id="exampleInputuname" 
+                                placeholder="Nombre"
+                                formControlName="nombre">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email</label>
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="ti-email"></i></div>
+                        <input type="email" 
+                                class="form-control" 
+                                id="exampleInputEmail1" 
+                                placeholder="Email"
+                                formControlName="email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="pwd1">Password</label>
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="ti-lock"></i></div>
+                        <input type="password" 
+                                class="form-control" 
+                                id="pwd1" 
+                                placeholder="Password"
+                                formControlName="password">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="pwd2">Confirm Password</label>
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="ti-lock"></i></div>
+                        <input type="password" 
+                                class="form-control" 
+                                id="pwd2" 
+                                placeholder="Password"
+                                formControlName="password2">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInputuname">Rol</label>
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="ti-user"></i></div>
+                        <input type="text" 
+                                class="form-control" 
+                                id="exampleInputuname" 
+                                placeholder="Rol"
+                                formControlName="rol">
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col text-danger">
+                        <p *ngIf="campoNoValido('nombre')">El nombre es obligatorio</p>
+                        <p *ngIf="campoNoValido('email')">El email es obligatorio</p>
+                        <p *ngIf="paswordNovalidas()">Las contraseñas deben ser iguales</p>
+                        <p *ngIf="campoNoValido('rol')">El rol es obligatorio</p>
+                    </div>
+
+                </div>
+
+                <br>
+
+               
+                <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
