@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { Cuenta } from '../models/cuenta.model';
 import { Cuentas } from '../interfaces/cuentas';
 import { CuentaForm } from '../interfaces/cuenta-form';
+import { Rol } from '../models/rol.model';
 
 const base_url = environment.base_url;
 
@@ -41,12 +42,24 @@ export class CuentaService {
         }
     }
 
-    crearCuenta(formData: CuentaForm){
-        return this.http.post(`${base_url}/cuentas`, formData,this.headers);
+    get rol(): any{
+
+        return this.cuenta.rol;
+    }
+
+    guardarLocalStorage(token: string, menu: any) {
+
+        localStorage.setItem('token', token);
+        localStorage.setItem('menu', JSON.stringify(menu));
+    }
+
+    crearCuenta(formData: CuentaForm) {
+        return this.http.post(`${base_url}/cuentas`, formData, this.headers);
     }
 
     logout() {
         localStorage.removeItem('token');
+        localStorage.removeItem('menu');
         this.ruter.navigateByUrl('/login');
     }
 
@@ -65,14 +78,16 @@ export class CuentaService {
                         google, } = resp.cuenta;
 
                     this.cuenta = new Cuenta(nombre, email, '', rol, uid, imagen, google);
-                    localStorage.setItem('token', resp.token);
+
+                    this.guardarLocalStorage(resp.token, resp.menu);
+
                     return true;
                 }),
                 catchError(error => of(false))
             );
     }
 
-    actualizarPerfil(data: { nombre: string, rol: string, email: string }) {
+    actualizarPerfil(data: { nombre: string, rol: any, email: string }) {
 
         data = {
             ...data,
@@ -88,7 +103,8 @@ export class CuentaService {
         return this.http.post(`${base_url}/login`, formData)
             .pipe(
                 tap((resp: any) => {
-                    localStorage.setItem('token', resp.token)
+
+                    this.guardarLocalStorage(resp.token, resp.menu);
                 })
             );
     }

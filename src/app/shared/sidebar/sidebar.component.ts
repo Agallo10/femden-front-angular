@@ -11,15 +11,9 @@ import { SidebarService } from 'src/app/services/sidebar.service';
 })
 export class SidebarComponent  {
 
-  menuItems: any[];
-
   public cuenta: Cuenta;
 
-  constructor(private sidebarService: SidebarService, private cuentaService: CuentaService) {
-
-    this.menuItems = sidebarService.menu;
-
-    console.log(this.menuItems);
+  constructor(public sidebarService: SidebarService, private cuentaService: CuentaService) {
 
     this.cuenta = cuentaService.cuenta;
 

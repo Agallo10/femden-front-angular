@@ -1,6 +1,8 @@
 import { environment } from 'src/environments/environment';
+import { Rol } from './rol.model';
 
 const base_url = environment.base_url;
+
 
 export class Cuenta {
 
@@ -9,7 +11,7 @@ export class Cuenta {
         public nombre: string,
         public email: string,
         public password: string,
-        public rol?: string,
+        public rol?: Rol,
         public uid?: string,
         public imagen?: string,
         public google?: boolean,

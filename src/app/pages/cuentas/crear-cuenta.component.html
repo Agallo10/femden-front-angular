@@ -57,11 +57,14 @@
                     <label for="exampleInputuname">Rol</label>
                     <div class="input-group">
                         <div class="input-group-addon"><i class="ti-user"></i></div>
-                        <input type="text" 
-                                class="form-control" 
-                                id="exampleInputuname" 
-                                placeholder="Rol"
+                        <select class="form-control"
                                 formControlName="rol">
+                            <option value="">Seleccione el rol</option>
+                            <option *ngFor="let rol of roles"
+                            [value]="rol.uid">
+                            {{rol.nombre}}
+                        </option>
+                        </select>
                     </div>
                 </div>
 

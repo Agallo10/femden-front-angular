@@ -11,6 +11,7 @@ import { PersonasComponent } from './personas/personas.component';
 import { DenunciasComponent } from './denuncias/denuncias.component';
 import { DenunciaComponent } from './denuncias/denuncia.component';
 import { CrearCuentaComponent } from './cuentas/crear-cuenta.component';
+import { AdminGuard } from '../guards/admin.guard';
 
 
 const routes: Routes = [
@@ -23,11 +24,14 @@ const routes: Routes = [
           {path: '',  component: DashboardComponent},
           {path: 'grafica1',  component: Grafica1Component, data: {titulo: 'Grafica'}},
           {path: 'perfil',  component: PerfilComponent, data: {titulo: 'Perfil'}},
-          {path: 'cuentas',  component: CuentasComponent, data: {titulo: 'Cuentas'}},
-          {path: 'crear-cuenta',  component: CrearCuentaComponent, data: {titulo: 'Crear cuenta'}},
           {path: 'personas',  component: PersonasComponent, data: {titulo: 'Personas'}},
           {path: 'denuncias',  component: DenunciasComponent, data: {titulo: 'Denuncias'}},
           {path: 'denuncia/:id',  component: DenunciaComponent, data: {titulo: 'Denuncia'}},
+
+          //Rutas de admin
+          {path: 'cuentas', canActivate: [AdminGuard], component: CuentasComponent, data: {titulo: 'Cuentas'}},
+          {path: 'crear-cuenta', canActivate: [AdminGuard], component: CrearCuentaComponent, data: {titulo: 'Crear cuenta'}},
+          
         ]
       },
 

@@ -10,19 +10,20 @@ import { CuentaService } from '../services/cuenta.service';
 export class AuthGuard implements CanActivate {
 
   constructor(private cuentaService: CuentaService,
-              private router: Router ){}
+    private router: Router) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot){
+    state: RouterStateSnapshot) {
 
-    return this.cuentaService.validarToken().pipe(tap(estaAutenticado =>{
-      if (!estaAutenticado) {
+    return this.cuentaService.validarToken().pipe(
+      tap(estaAutenticado => {
+        if (!estaAutenticado) {
           this.router.navigateByUrl('/login');
-      } else {
-        
-      }
-    }))
+        } else {
+
+        }
+      }))
   }
-  
+
 }

@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Rol } from 'src/app/models/rol.model';
 import { CuentaService } from 'src/app/services/cuenta.service';
+import { RolService } from 'src/app/services/rol.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -9,44 +11,61 @@ import Swal from 'sweetalert2';
   styles: [
   ]
 })
-export class CrearCuentaComponent {
+export class CrearCuentaComponent implements OnInit{
 
   public formSubmitted = false;
+  public roles: Rol[]= [];
+  public rolSeleccionado: Rol;
+  public cuentaForm: FormGroup;
+   
 
-  public cuentaForm = this.fb.group ({
-    nombre: ['', Validators.required],
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', Validators.required],
-    password2: ['', Validators.required],
-    rol: ['entidad', Validators.required],
+    
 
-  },{
-    validators: this.passwordsIguales('password','password2' )
-  });
+  constructor(private fb: FormBuilder,
+              private cuentaService: CuentaService,
+              private rolService: RolService) { }
 
-  constructor(private fb: FormBuilder, private cuentaService: CuentaService) { }
+  
+  ngOnInit(): void {
 
-   crearCuenta(){
-     this.formSubmitted = true;
-    console.log(this.cuentaForm.value);
+    this.cuentaForm = this.fb.group({
+      nombre: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
+      password2: ['', Validators.required],
+      rol: ['', Validators.required],
+  
+    }, {
+      validators: this.passwordsIguales('password', 'password2')
+    });
+
+    
+    this.cargarRoles();
+
+    this.crearCuenta();
+  }
+
+  crearCuenta() {
+    
+    this.formSubmitted = true;
 
     if (this.cuentaForm.invalid) {
       return;
     }
-    this.cuentaService.crearCuenta(this.cuentaForm.value).subscribe(resp =>{
+    this.cuentaService.crearCuenta(this.cuentaForm.value).subscribe(resp => {
 
       Swal.fire({
         icon: 'success',
         text: 'Cuenta creada'
       });
 
-    },(err)=>{
+    }, (err) => {
       Swal.fire('Error', err.error.msg, 'error');
     });
-    
+
   }
 
-  campoNoValido(campo:string): boolean {
+  campoNoValido(campo: string): boolean {
     if (this.cuentaForm.get(campo).invalid && this.formSubmitted) {
       return true;
     } else {
@@ -54,7 +73,7 @@ export class CrearCuentaComponent {
     }
   }
 
-  paswordNovalidas(){
+  paswordNovalidas() {
     const pass1 = this.cuentaForm.get('password').value;
     const pass2 = this.cuentaForm.get('password2').value;
 
@@ -65,7 +84,7 @@ export class CrearCuentaComponent {
     }
   }
 
-  passwordsIguales(pass1Name: string, pass2Name: string){
+  passwordsIguales(pass1Name: string, pass2Name: string) {
 
     return (formGroup: FormGroup) => {
 
@@ -75,10 +94,17 @@ export class CrearCuentaComponent {
       if (pass1Control.value === pass2Control.value) {
         pass2Control.setErrors(null);
       } else {
-        pass2Control.setErrors({noEsIgual: true})
+        pass2Control.setErrors({ noEsIgual: true })
       }
     }
 
+  }
+
+  cargarRoles() {
+    this.rolService.getRoles()
+        .subscribe(({roles})=>{
+          this.roles= roles
+        })
   }
 
 }
