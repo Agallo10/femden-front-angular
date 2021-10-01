@@ -1,9 +1,11 @@
+import { Estado } from './estado.model';
 import { Persona } from './persona.model';
 
 interface _DenunciaTipo {
     _id: string;
     nombre: string;
 }
+
 
 export class Denuncia {
 
@@ -12,8 +14,8 @@ export class Denuncia {
         public texto: string,
         public fecha: string,
         public persona: Persona,
-        public estado: string,
-        public tipo?: _DenunciaTipo,
+        public estado: Estado,
+        public tipo: _DenunciaTipo,
         public uid?: string,
 
     ) { }

@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Rol } from 'src/app/models/rol.model';
+import { TipoEntidad } from 'src/app/models/tipoEntidad.model';
 import { CuentaService } from 'src/app/services/cuenta.service';
 import { RolService } from 'src/app/services/rol.service';
+import { TipoEntidadService } from 'src/app/services/tipo-entidad.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -15,25 +17,30 @@ export class CrearCuentaComponent implements OnInit{
 
   public formSubmitted = false;
   public roles: Rol[]= [];
+  public tiposE: TipoEntidad[]= [];
   public rolSeleccionado: Rol;
+  public tipoSeleccionado: TipoEntidad;
   public cuentaForm: FormGroup;
-   
-
-    
+  public disable: boolean = true;
 
   constructor(private fb: FormBuilder,
               private cuentaService: CuentaService,
-              private rolService: RolService) { }
+              private rolService: RolService,
+              private tipoEntidadService: TipoEntidadService) { }
 
   
   ngOnInit(): void {
 
     this.cuentaForm = this.fb.group({
       nombre: ['', Validators.required],
+      nombreEncargado: ['', Validators.required],
+      documento: ['', Validators.required],
+      cargo: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
       password2: ['', Validators.required],
       rol: ['', Validators.required],
+      tipoEntidad: [''],
   
     }, {
       validators: this.passwordsIguales('password', 'password2')
@@ -43,6 +50,16 @@ export class CrearCuentaComponent implements OnInit{
     this.cargarRoles();
 
     this.crearCuenta();
+
+    this.cargarTipos();
+
+    this.desabilitar();
+  }
+
+  desabilitar(){
+    if (localStorage.getItem('tipoEntidad') != '5f97389f40cb934fbccd96d5') {
+      this.disable=false;
+    }
   }
 
   crearCuenta() {
@@ -52,7 +69,7 @@ export class CrearCuentaComponent implements OnInit{
     if (this.cuentaForm.invalid) {
       return;
     }
-    this.cuentaService.crearCuenta(this.cuentaForm.value).subscribe(resp => {
+    this.cuentaService.crearCuenta(this.cuentaForm.value, localStorage.getItem('tipoEntidad')).subscribe(resp => {
 
       Swal.fire({
         icon: 'success',
@@ -61,6 +78,7 @@ export class CrearCuentaComponent implements OnInit{
 
     }, (err) => {
       Swal.fire('Error', err.error.msg, 'error');
+      console.log(err);
     });
 
   }
@@ -106,5 +124,11 @@ export class CrearCuentaComponent implements OnInit{
           this.roles= roles
         })
   }
-
+  
+  cargarTipos() {
+    this.tipoEntidadService.getTipos()
+        .subscribe(({tipoEntidades})=>{
+          this.tiposE= tipoEntidades
+        })
+  }
 }

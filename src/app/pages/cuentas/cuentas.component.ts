@@ -23,11 +23,12 @@ export class CuentasComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarCuentas();
+    //this.tipoCuenta();
   }
 
   cargarCuentas() {
     this.cargando = true
-    this.cuentaService.getCuentas(this.desde)
+    this.cuentaService.getCuentasTipo(this.desde, this.cuentaService.tipoEntidad)
       .subscribe(({ total, cuentas }) => {
 
         this.totalCuentas = total;
@@ -36,6 +37,10 @@ export class CuentasComponent implements OnInit {
         this.cargando = false
       });
   }
+
+  // tipoCuenta(){
+  //   console.log(this.cuentaService.tipoEntidad);
+  // }
 
   cambiarPagina(valor: number) {
 

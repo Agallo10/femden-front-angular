@@ -34,9 +34,11 @@
                         <thead>
                             <tr>
                                 <th class="w100">Avatar</th>
+                                <th>Encargado</th>
                                 <th>Correo</th>
                                 <th>Nombre</th>
                                 <th>Rol</th>
+                                <th>Tipo de entidad</th>
 
                                 <th class="text-nowrap w100">Action</th>
                             </tr>
@@ -46,9 +48,11 @@
                                 <td class="text-center">
                                     <img [src]="cuenta.imagenUrl" alt="Avatar" class="avatar">
                                 </td>
+                                <td>{{cuenta.nombreEncargado}}</td>
                                 <td>{{cuenta.email}}</td>
                                 <td>{{cuenta.nombre}}</td>
                                 <td>{{cuenta.rol.nombre}}</td>
+                                <td>{{cuenta.tipoEntidad.nombre}}</td>
 
                                 <td class="text-nowrap text-center">
                                     <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i

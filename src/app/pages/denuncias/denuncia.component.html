@@ -1,1 +1,120 @@
-<p>denuncia works!</p>
+<div class="row">
+
+
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Denuncia de tipo {{denuncia.tipo.nombre}}</h4>
+                
+
+            </div>
+
+            <div class="card-body">
+                <h4 class="card-text">Texto:  {{denuncia.texto}}</h4>
+                <h4 class="card-title">Denuncia hecha por {{denuncia.persona.nombre}} </h4>
+                <h5 class="card-subtitle">Fecha: {{denuncia.fecha}}</h5>
+                <h6 class="card-subtitle">Estado: {{denuncia.estado.nombre}}</h6>
+                <button type="button" 
+                    class="btn waves-effect waves-light btn-rounded btn-primary"
+                    (click)="cambiarEstadoFiscal()"
+                    >Cambiar a estado fiscal
+                 </button>
+                 &nbsp;
+                <button type="button" 
+                    class="btn waves-effect waves-light btn-rounded btn-primary"
+                    (click)="finalzarDenuncia()"
+                    >Finalizar denuncia
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    
+
+
+    
+<!-- ---------------------------------------------------------------------------------- -->
+
+
+    <div class="col-lg-6">
+
+
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title"> Agregar comentario </h4>
+
+            </div>
+
+            <div class="card-body">
+
+                <form [formGroup]="comentarioForm"
+                      (ngSubmit)=crearComentario()>
+
+                <div class="form-group">
+                    <label>Escriba aqui su comentario</label>
+                    <textarea class="form-control" rows="5" formControlName="comentario"></textarea>
+                                
+                </div>
+                
+
+                    <button type="submit" class="btn waves-effect waves-light btn-rounded btn-primary">Agregar comentario</button>
+
+                </form>
+
+
+            </div>
+        </div>
+
+        
+        
+    
+    </div>
+
+    
+</div>
+
+
+<div class="col lg 10"> 
+
+    <div >
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Comentarios</h4>
+                <div class="table-responsive">
+                    <table class="table color-bordered-table purple-bordered-table">
+                        <thead>
+                            <tr>
+                                <th>Comentario</th>
+                                <th>Encargado</th>
+                                <th>Fecha</th>
+                                <th>Accion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let comentario of comentarios">
+                                <td>{{comentario.comentario}}</td>
+                                <td>{{comentario.cuenta.nombreEncargado}}</td>
+                                <td>{{comentario.fecha}}</td>
+
+                                <td class="text-nowrap text-center">
+
+                                    <a 
+                                    data-toggle="tooltip" 
+                                    data-original-title="Borrar"
+                                    class="cursor"
+                                    (click)="eliminarComentario(comentario)">
+                                     <i class="fa fa-close text-danger"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

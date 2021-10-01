@@ -36,6 +36,7 @@ export class LoginComponent {
 
       },(err)=>{
         Swal.fire('Error', err.error.msg, 'error')
+        console.log(err.error.msg)
       });
     //console.log(this.loginForm.value);
   }

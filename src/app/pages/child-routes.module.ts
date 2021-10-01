@@ -19,7 +19,7 @@ const childRoutes: Routes = [
   {path: 'perfil',  component: PerfilComponent, data: {titulo: 'Perfil'}},
   {path: 'personas',  component: PersonasComponent, data: {titulo: 'Personas'}},
   {path: 'denuncias',  component: DenunciasComponent, data: {titulo: 'Denuncias'}},
-  {path: 'denuncia/:id',  component: DenunciaComponent, data: {titulo: 'Denuncia'}},
+  {path: 'denuncias/denuncia/:id',  component: DenunciaComponent, data: {titulo: 'Denuncia'}},
 
   //Rutas de admin
   {path: 'cuentas', canActivate: [AdminGuard], component: CuentasComponent, data: {titulo: 'Cuentas'}},

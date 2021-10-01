@@ -2,7 +2,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <input type="text" class="form-control" placeholder="Buscar por tipo" (keyup)="buscar(textTermino.value)"
+                <input type="text" class="form-control" placeholder="Buscar por persona" (keyup)="buscar(textTermino.value)"
                     #textTermino />
 
             </div>
@@ -47,13 +47,14 @@
                                 <td>{{denuncia.texto}}</td>
                                 <td>{{denuncia.fecha}}</td>
                                 <td>{{denuncia.persona.nombre}}</td>
-                                <td>{{denuncia.estado}}</td>
+                                <td>{{denuncia.estado.nombre}}</td>
                                 <td>{{denuncia.tipo.nombre}}</td>
                                
 
                                 <td class="text-nowrap text-center">
 
-                                    <a data-toggle="tooltip" 
+                                    <a [routerLink]="['denuncia', denuncia.uid]"
+                                       data-toggle="tooltip" 
                                        data-original-title="Borrar"
                                        class="cursor"
                                        >
@@ -74,3 +75,5 @@
     </div>
 
 </div>
+
+<!-- ------------------------------------------------------- -->

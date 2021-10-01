@@ -46,20 +46,29 @@ export class CuentaService {
 
         return this.cuenta.rol;
     }
+    
+      get tipoEntidad(): any{
+        
+        return localStorage.getItem('tipoEntidad') || "";
+     }
 
-    guardarLocalStorage(token: string, menu: any) {
+    guardarLocalStorage(token: string, menu: any, tipoEntidad: string) {
 
         localStorage.setItem('token', token);
         localStorage.setItem('menu', JSON.stringify(menu));
+        localStorage.setItem('tipoEntidad', tipoEntidad);
+        
     }
 
-    crearCuenta(formData: CuentaForm) {
-        return this.http.post(`${base_url}/cuentas`, formData, this.headers);
+    crearCuenta(formData: CuentaForm, tipo: string) {
+        return this.http.post(`${base_url}/cuentas/${tipo}`, formData, this.headers);
     }
 
     logout() {
         localStorage.removeItem('token');
         localStorage.removeItem('menu');
+        //localStorage.removeItem('email')
+        localStorage.removeItem('tipoEntidad');
         this.ruter.navigateByUrl('/login');
     }
 
@@ -71,15 +80,21 @@ export class CuentaService {
                 map((resp: any) => {
                     const {
                         nombre,
+                        nombreEncargado,
+                        documento,
+                        cargo,
                         email,
                         rol,
                         uid,
                         imagen = '',
-                        google, } = resp.cuenta;
+                        google,
+                        tipoEntidad
+                         } = resp.cuenta;
 
-                    this.cuenta = new Cuenta(nombre, email, '', rol, uid, imagen, google);
+                    this.cuenta = new Cuenta(nombre, nombreEncargado,documento, cargo, email, '', rol, uid, imagen, google, tipoEntidad);
 
-                    this.guardarLocalStorage(resp.token, resp.menu);
+                    this.guardarLocalStorage(resp.token, resp.menu, resp.tipoEntidad);
+                    
 
                     return true;
                 }),
@@ -104,7 +119,11 @@ export class CuentaService {
             .pipe(
                 tap((resp: any) => {
 
-                    this.guardarLocalStorage(resp.token, resp.menu);
+                    this.guardarLocalStorage(resp.token, resp.menu, resp.tipoEntidad);
+                    //console.log(resp.tipoEntidad);
+                    //console.log(localStorage.getItem('tipoEntidad'));
+                    //console.log(resp);
+                    
                 })
             );
     }
@@ -117,7 +136,25 @@ export class CuentaService {
                 map(resp => {
 
                     const cuentas = resp.cuentas.map(
-                        cuenta => new Cuenta(cuenta.nombre, cuenta.email, '', cuenta.rol, cuenta.uid, cuenta.imagen)
+                        cuenta => new Cuenta(cuenta.nombre, cuenta.nombreEncargado,cuenta.documento,cuenta.cargo, cuenta.email, '', cuenta.rol, cuenta.uid, cuenta.imagen, false, cuenta.tipoEntidad)
+                    );
+                    return {
+                        total: resp.total,
+                        cuentas
+                    }
+                })
+            )
+    }
+
+    getCuentasTipo(desde: number = 0, tipo: string) {
+
+        const url = `${base_url}/cuentas/${tipo}?desde=${desde}`;
+        return this.http.get<Cuentas>(url, this.headers)
+            .pipe(
+                map(resp => {
+
+                    const cuentas = resp.cuentas.map(
+                        cuenta => new Cuenta(cuenta.nombre, cuenta.nombreEncargado,cuenta.documento,cuenta.cargo, cuenta.email, '', cuenta.rol, cuenta.uid, cuenta.imagen, false, cuenta.tipoEntidad)
                     );
                     return {
                         total: resp.total,

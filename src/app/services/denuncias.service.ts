@@ -44,4 +44,31 @@ export class DenunciasService {
       map((resp:{ok:boolean, denuncias: Denuncia[], total:number})=>resp)
     );
   }
+
+  getDenunciasTipo(desde: number = 0, tipo: string) {
+
+    const url = `${base_url}/denuncias/denuncia-tipo/${tipo}?desde=${desde}`;
+    return this.http.get(url, this.headers).pipe(
+      map((resp:{ok:boolean, denuncias: Denuncia[], total:number})=>resp)
+    );
+  }
+
+  getDenunciaUid(id: string) {
+
+    const url = `${base_url}/denuncias/denuncia/${id}`;
+    return this.http.get(url, this.headers).pipe(
+      map((resp:{ok: boolean, denuncia: Denuncia})=> resp.denuncia)
+    );
+}
+
+actualizarEstado(id: string, estado: string ) {
+
+  return this.http.put(`${base_url}/denuncias/${id}`, estado, this.headers);
+}
+
+actualizarEstado2(id: string, estado: string ) {
+
+  return this.http.put(`${base_url}/denuncias/finalizar/${id}`, estado, this.headers);
+}
+
 }

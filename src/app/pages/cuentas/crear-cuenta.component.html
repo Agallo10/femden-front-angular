@@ -1,7 +1,7 @@
 <div class="col-lg-6">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Crear Cuenta de entidad</h4>
+            <h4 class="card-title">Crear cuenta de entidad</h4>
             <!-- <h6 class="card-subtitle">Crear Cuenta de entidad</h6> -->
 
             <form class="form p-t-20"
@@ -19,6 +19,44 @@
                                 formControlName="nombre">
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label for="exampleInputuname">Nombre del encargado</label>
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="ti-user"></i></div>
+                        <input type="text" 
+                                class="form-control" 
+                                id="exampleInputuname" 
+                                placeholder="Nombre Del encargado"
+                                formControlName="nombreEncargado">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInputuname">Documento</label>
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="ti-user"></i></div>
+                        <input type="text" 
+                                class="form-control" 
+                                id="exampleInputuname" 
+                                placeholder="Documento"
+                                formControlName="documento">
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="exampleInputuname">Cargo</label>
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="ti-user"></i></div>
+                        <input type="text" 
+                                class="form-control" 
+                                id="exampleInputuname" 
+                                placeholder="Cargo"
+                                formControlName="cargo">
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label for="exampleInputEmail1">Email</label>
                     <div class="input-group">
@@ -31,24 +69,24 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="pwd1">Password</label>
+                    <label for="pwd1">Contraseña</label>
                     <div class="input-group">
                         <div class="input-group-addon"><i class="ti-lock"></i></div>
                         <input type="password" 
                                 class="form-control" 
                                 id="pwd1" 
-                                placeholder="Password"
+                                placeholder="Contraseña"
                                 formControlName="password">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="pwd2">Confirm Password</label>
+                    <label for="pwd2">Confirmar contraseña</label>
                     <div class="input-group">
                         <div class="input-group-addon"><i class="ti-lock"></i></div>
                         <input type="password" 
                                 class="form-control" 
                                 id="pwd2" 
-                                placeholder="Password"
+                                placeholder="Contraseña"
                                 formControlName="password2">
                     </div>
                 </div>
@@ -67,14 +105,34 @@
                         </select>
                     </div>
                 </div>
+                <div *ngIf="disable">
+                    <div class="form-group">
+                        <label for="exampleInputuname">Tipo de Entidad</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-user"></i></div>
+                            <select class="form-control"
+                                    formControlName="tipoEntidad">
+                                <option value="">Seleccione el tipo de entidad</option>
+                                <option *ngFor="let tipo of tiposE"
+                                [value]="tipo.uid">
+                                {{tipo.nombre}}
+                            </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="row">
 
                     <div class="col text-danger">
                         <p *ngIf="campoNoValido('nombre')">El nombre es obligatorio</p>
+                        <p *ngIf="campoNoValido('nombreEncargado')">El nombre del encargado es obligatorio</p>
+                        <p *ngIf="campoNoValido('documento')">El documento es obligatorio</p>
+                        <p *ngIf="campoNoValido('cargo')">El cargo es obligatorio</p>
                         <p *ngIf="campoNoValido('email')">El email es obligatorio</p>
                         <p *ngIf="paswordNovalidas()">Las contraseñas deben ser iguales</p>
                         <p *ngIf="campoNoValido('rol')">El rol es obligatorio</p>
+                        <!-- <p *ngIf="campoNoValido('tipoEntidad')">El tipo de entidad o cuenta es obligatorio</p> -->
                     </div>
 
                 </div>
@@ -82,7 +140,7 @@
                 <br>
 
                
-                <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
+                <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Crear cuenta</button>
             </form>
         </div>
     </div>
