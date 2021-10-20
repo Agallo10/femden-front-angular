@@ -33,9 +33,9 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
+                                <th>Persona</th>
                                 <th>Texto</th>
                                 <th>Fecha</th>
-                                <th>Persona</th>
                                 <th>Estado</th>
                                 <th>Tipo</th>
                                 <th class="text-nowrap">Action</th>
@@ -44,9 +44,9 @@
                         <tbody>
                             <tr *ngFor="let denuncia of denuncias">
                                 
+                                <td>{{denuncia.autor}}</td>
                                 <td>{{denuncia.texto}}</td>
                                 <td>{{denuncia.fecha}}</td>
-                                <td>{{denuncia.persona.nombre}}</td>
                                 <td>{{denuncia.estado.nombre}}</td>
                                 <td>{{denuncia.tipo.nombre}}</td>
                                

@@ -4,7 +4,6 @@ import { Persona } from 'src/app/models/persona.model';
 import { BusquedasService } from 'src/app/services/busquedas.service';
 import { CuentaService } from 'src/app/services/cuenta.service';
 import { DenunciasService } from 'src/app/services/denuncias.service';
-import { PersonasService } from 'src/app/services/personas.service';
 
 @Component({
   selector: 'app-denuncias',
@@ -16,22 +15,19 @@ export class DenunciasComponent implements OnInit {
 
   public totalDenuncias: number = 0;
   public denuncias: Denuncia[] = [];
-  public personas: Persona[] = [];
 
   public denunciasTemp: Denuncia[] = [];
-  public personasTemp: Persona[] = [];
   public desde: number = 0;
   public cargando: boolean = true;
 
   constructor(private denunciasService: DenunciasService,
     private busquedasService: BusquedasService, 
     private cuentaService: CuentaService,
-    private personasService: PersonasService) { }
+    ) { }
 
 
   ngOnInit(): void {
     this.cargarDenuncias();
-    this.cargarPersonas();
     //console.log(this.cuentaService.tipoEntidad);
   }
   //admin@gmail.com
@@ -48,22 +44,13 @@ export class DenunciasComponent implements OnInit {
       });
   }
 
-  cargarPersonas() {
-    this.cargando = true
-    this.personasService.getPersonass(this.desde)
-      .subscribe(({ total, personas }) => {
 
-        this.personas = personas;
-        this.personasTemp = personas;
-        this.cargando = false
-      });
-  }
 
   buscar(termino: string) {
     if (termino.length == 0) {
       return this.denuncias = this.denunciasTemp;
     }
-    this.busquedasService.buscar('personas', termino)
+    this.busquedasService.buscar('denuncias', termino)
       .subscribe((resp: any) => {
         this.denuncias = resp;
       });

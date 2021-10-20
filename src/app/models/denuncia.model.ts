@@ -12,10 +12,12 @@ export class Denuncia {
     constructor(
 
         public texto: string,
+        public autor: string,
         public fecha: string,
         public persona: Persona,
         public estado: Estado,
         public tipo: _DenunciaTipo,
+        public numeroRadicado?: number,
         public uid?: string,
 
     ) { }

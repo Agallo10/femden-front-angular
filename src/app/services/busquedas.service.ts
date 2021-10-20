@@ -29,7 +29,7 @@ export class BusquedasService {
 
   private transformarCuentas(resultados: any[]): Cuenta[] {
     return resultados.map(
-      cuenta => new Cuenta(cuenta.nombre, cuenta.email, '', cuenta.rol, cuenta.uid, cuenta.imagen)
+      cuenta => new Cuenta(cuenta.nombre,cuenta.nombreEncargado,cuenta.documento,cuenta.cargo,cuenta.email, '', cuenta.rol, cuenta.uid, cuenta.imagen)
     );
   }
 
@@ -41,7 +41,7 @@ export class BusquedasService {
 
   private transformarDenuncias(resultados: any[]): Denuncia[] {
     return resultados.map(
-      denuncia => new Denuncia(denuncia.texto, denuncia.fecha, denuncia.persona,denuncia.estado, denuncia.tipo, denuncia.uid)
+      denuncia => new Denuncia(denuncia.texto,denuncia.autor ,denuncia.fecha, denuncia.persona,denuncia.estado, denuncia.tipo, denuncia.uid)
     );
   }
 

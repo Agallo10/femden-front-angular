@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Comentario } from 'src/app/models/comentario.model';
 import { Denuncia } from 'src/app/models/denuncia.model';
@@ -21,6 +21,7 @@ export class DenunciaComponent implements OnInit {
   public estado: 'hola';
   public formSubmitted = false;
   public comentarioForm: FormGroup;
+  public radicadoForm: FormGroup;
   public comentarios: Comentario[] = [];
   public cargando: boolean = true;
   public id: string;
@@ -53,14 +54,18 @@ export class DenunciaComponent implements OnInit {
       cuenta: [this.cuentaService.uid],
       denuncia: [id],
     }));
-    
 
+    
   }
 
   cargarDenuncia(id: string) {
     this.denunciaService.getDenunciaUid(id)
       .subscribe(denuncia => {
         this.denuncia = denuncia;
+
+        this.radicadoForm = this.fb.group({
+          numeroRadicado:[this.denuncia.numeroRadicado],
+        });
       })
   }
 
@@ -78,8 +83,6 @@ export class DenunciaComponent implements OnInit {
       });
 
     console.log('funciona');
-    
-
   }
 
   finalzarDenuncia() {
@@ -154,6 +157,22 @@ export class DenunciaComponent implements OnInit {
       }
     })
 
+  }
+
+  agregarNumeroRadicado(){
+    this.denunciaService.agregarNumeroRadicado(this.denuncia.uid, this.radicadoForm.value)
+      .subscribe(resp => {
+        this.cargarDenuncia(this.denuncia.uid);
+        Swal.fire({
+          icon: 'success',
+          text: 'Se agregó el número de radicado'
+        });
+      }, (err) => {
+        Swal.fire('Error', err.error.msg, 'error');
+        console.log(err);
+      });
+
+    console.log('funciona');
   }
 
   

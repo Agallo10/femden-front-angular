@@ -11,7 +11,7 @@
 
             <div class="card-body">
                 <h4 class="card-text">Texto:  {{denuncia.texto}}</h4>
-                <h4 class="card-title">Denuncia hecha por {{denuncia.persona.nombre}} </h4>
+                <h4 class="card-title">Denuncia hecha por: {{denuncia.autor}} </h4>
                 <h5 class="card-subtitle">Fecha: {{denuncia.fecha}}</h5>
                 <h6 class="card-subtitle">Estado: {{denuncia.estado.nombre}}</h6>
                 <button type="button" 
@@ -30,6 +30,7 @@
         </div>
     </div>
 
+    
     
 
 
@@ -66,10 +67,40 @@
             </div>
         </div>
 
-        
-        
     
     </div>
+
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <form class="form p-t-20" 
+                        [formGroup]= "radicadoForm"
+                        (submit)= "agregarNumeroRadicado()">
+
+                    <div class="form-group">
+                        <label for="exampleInputuname">Numero de radicado</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-number"></i></div>
+
+                            <input type="number"
+                                   class="form-control" 
+                                   id="exampleInputuname" 
+                                   placeholder="Numero de radicado"
+                                   formControlName="numeroRadicado">
+                        </div>
+                    </div>
+                    
+                    <button type="submit" 
+                            class="btn btn-success btn-block waves-effect waves-light m-r-10"
+                            >
+                        Guardar cambios
+                    </button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
 
     
 </div>
