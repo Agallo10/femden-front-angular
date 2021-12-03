@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Denuncias } from '../interfaces/denuncias';
 import { Denuncia } from '../models/denuncia.model';
+import { Grafica } from '../models/graficas.model';
 
 
 const base_url = environment.base_url;
@@ -58,6 +59,12 @@ export class DenunciasService {
     const url = `${base_url}/denuncias/denuncia/${id}`;
     return this.http.get(url, this.headers).pipe(
       map((resp: { ok: boolean, denuncia: Denuncia }) => resp.denuncia)
+    );
+  }
+  getGraficas() {
+    const url = `${base_url}/denuncias/denuncia-datos/a`;
+    return this.http.get(url, this.headers).pipe(
+      map((resp: { ok: boolean, graficas: Grafica,  }) => resp.graficas)
     );
   }
 
